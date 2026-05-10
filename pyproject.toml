@@ -23,9 +23,20 @@ dev = [
     "respx>=0.21",
     "ruff>=0.5",
 ]
+dashboard = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+]
 
 [project.scripts]
 rugcheck = "rugcheck_cli.cli:main"
+rugcheck-dashboard = "rugcheck_cli.web.server:main"
+
+[tool.hatch.build]
+include = [
+    "src/rugcheck_cli/**/*.py",
+    "src/rugcheck_cli/web/static/*",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/rugcheck_cli"]

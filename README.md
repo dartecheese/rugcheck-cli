@@ -70,6 +70,31 @@ summed into a score. On Solana, rugcheck.xyz's own score wins when present.
 `--json` emits the full structured report for scripting / piping into a Shield
 risk-engine pipeline.
 
+## Local dashboard
+
+For something a little more visually appealing, install the optional dashboard
+extras and spin up a local web UI:
+
+```bash
+pip install "rugcheck-cli[dashboard]"
+rugcheck-dashboard          # opens http://127.0.0.1:8787 in your browser
+rugcheck-dashboard --port 9000 --no-open
+rugcheck-dashboard --host 0.0.0.0   # expose on your LAN
+```
+
+The dashboard is a single-page UI served by FastAPI: paste an address, get a
+score ring, key metrics (price / liquidity / FDV / holders / LP-lock / top-10),
+severity-colored findings, and the raw JSON for piping. Same scan logic as the
+CLI — just rendered.
+
+API surface (handy for embedding into your own tools):
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/health` | Liveness probe |
+| `GET /api/scan?address=...&chain=...` | Returns the full `RiskReport` JSON |
+| `GET /api/docs` | OpenAPI / Swagger UI |
+
 ## Development
 
 ```bash
@@ -82,9 +107,12 @@ chains, new sources, or new heuristics is a one-file change.
 
 ## Roadmap
 
+- [x] Local dashboard (`rugcheck-dashboard`)
 - [ ] Deployer-wallet age (Etherscan / Solscan)
 - [ ] Holder churn / freshness
 - [ ] Multi-token batch mode
 - [ ] Cache layer (24h) for repeat scans
 - [ ] Rugcheck token-history (votes / verified) signal
 - [ ] GoPlus NFT + approval security endpoints
+- [ ] Watchlist + history view in the dashboard
+- [ ] Compare mode (two tokens side-by-side)
